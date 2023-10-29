@@ -12,13 +12,30 @@ The data stores in the DB is:
  - PRICE: Product price
  - CURR: Currency
 
-The API methods will be able via "/api/offer" (POST to store an offer, GET to get an offer)
-
 //INSTALLATION
 mvn clean install
 
 //REQUIREMENTS
  - Java
  - Maven
+
+API methods via "/api/offer" (POST to store an offer, GET to get an offer)
+Dates format: "yyyy-MM-dd'T'HH:mm:ss" -> (EXAMPLE) 2020-06-19T14:00:00
+ - POST need JSON in Body:
+(EXAMPLE)
+{
+    "brandId": 1,
+    "startDate": "2020-06-15T16:00:00",
+    "endDate": "2020-12-31T23:59:59",
+    "priceList": 1,
+    "productId": 35455,
+    "priority": 3,
+    "price": 38.95,
+    "currency": "EUR"
+}
+
+ - GET need to have 3 args (productId, brandId, date):
+(EXAMPLE)
+/api/offers/35455/1/2020-06-19T14:00:00
 
 
