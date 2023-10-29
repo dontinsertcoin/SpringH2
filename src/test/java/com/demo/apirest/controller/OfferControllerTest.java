@@ -36,20 +36,100 @@ public class OfferControllerTest {
     }
 
     @Test
-    void persist_offer() throws Exception {
+    void persist_offer1() throws Exception {
         MvcResult mvcGetResult = persistOffer(TestOffers.offer1);
         assertEquals(mvcGetResult.getResponse().getStatus(), 201);
     }
 
     @Test
+    void persist_offer2() throws Exception {
+        MvcResult mvcGetResult = persistOffer(TestOffers.offer2);
+        assertEquals(mvcGetResult.getResponse().getStatus(), 201);
+    }
+
+    @Test
+    void persist_offer3() throws Exception {
+        MvcResult mvcGetResult = persistOffer(TestOffers.offer3);
+        assertEquals(mvcGetResult.getResponse().getStatus(), 201);
+    }
+
+    @Test
+    void persist_offer4() throws Exception {
+        MvcResult mvcGetResult = persistOffer(TestOffers.offer4);
+        assertEquals(mvcGetResult.getResponse().getStatus(), 201);
+    }
+
+    @Test
     void retrieve_an_offer_from_database() throws Exception {
-        persist_offer();
-        MvcResult mvcPostResult = getOfferFor("35455","1","2020-06-18T10:00:00");
+        persist_offer1();
+        MvcResult mvcPostResult = getOfferFor("35455","1","2020-06-14T10:00:00");
         Offer foundOffer = new ObjectMapper().readValue(mvcPostResult.getResponse().getContentAsString(), Offer.class);
         assertEquals(302, mvcPostResult.getResponse().getStatus());
         Assertions.assertEquals(TestOffers.offer1.getPrice(), foundOffer.getPrice());
         Assertions.assertEquals(TestOffers.offer1.getStartDate(), foundOffer.getStartDate());
         Assertions.assertEquals(TestOffers.offer1.getEndDate(), foundOffer.getEndDate());
+    }
+
+    @Test
+    void requested_test_1() throws Exception {
+        persistOffers();
+        MvcResult mvcPostResult = getOfferFor("35455","1","2020-06-14T10:00:00");
+        assertEquals(302, mvcPostResult.getResponse().getStatus());
+        Offer foundOffer = new ObjectMapper().readValue(mvcPostResult.getResponse().getContentAsString(), Offer.class);
+        Assertions.assertEquals(TestOffers.offer1.getPrice(), foundOffer.getPrice());
+        Assertions.assertEquals(TestOffers.offer1.getStartDate(), foundOffer.getStartDate());
+        Assertions.assertEquals(TestOffers.offer1.getEndDate(), foundOffer.getEndDate());
+    }
+
+    @Test
+    void requested_test_2() throws Exception {
+        persistOffers();
+        MvcResult mvcPostResult = getOfferFor("35455","1","2020-06-14T16:00:00");
+        assertEquals(302, mvcPostResult.getResponse().getStatus());
+        Offer foundOffer = new ObjectMapper().readValue(mvcPostResult.getResponse().getContentAsString(), Offer.class);
+        Assertions.assertEquals(TestOffers.offer2.getPrice(), foundOffer.getPrice());
+        Assertions.assertEquals(TestOffers.offer2.getStartDate(), foundOffer.getStartDate());
+        Assertions.assertEquals(TestOffers.offer2.getEndDate(), foundOffer.getEndDate());
+    }
+
+    @Test
+    void requested_test_3() throws Exception {
+        persistOffers();
+        MvcResult mvcPostResult = getOfferFor("35455","1","2020-06-14T21:00:00");
+        assertEquals(302, mvcPostResult.getResponse().getStatus());
+        Offer foundOffer = new ObjectMapper().readValue(mvcPostResult.getResponse().getContentAsString(), Offer.class);
+        Assertions.assertEquals(TestOffers.offer1.getPrice(), foundOffer.getPrice());
+        Assertions.assertEquals(TestOffers.offer1.getStartDate(), foundOffer.getStartDate());
+        Assertions.assertEquals(TestOffers.offer1.getEndDate(), foundOffer.getEndDate());
+    }
+
+    @Test
+    void requested_test_4() throws Exception {
+        persistOffers();
+        MvcResult mvcPostResult = getOfferFor("35455","1","2020-06-15T10:00:00");
+        assertEquals(302, mvcPostResult.getResponse().getStatus());
+        Offer foundOffer = new ObjectMapper().readValue(mvcPostResult.getResponse().getContentAsString(), Offer.class);
+        Assertions.assertEquals(TestOffers.offer3.getPrice(), foundOffer.getPrice());
+        Assertions.assertEquals(TestOffers.offer3.getStartDate(), foundOffer.getStartDate());
+        Assertions.assertEquals(TestOffers.offer3.getEndDate(), foundOffer.getEndDate());
+    }
+
+    @Test
+    void requested_test_5() throws Exception {
+        persistOffers();
+        MvcResult mvcPostResult = getOfferFor("35455","1","2020-06-16T21:00:00");
+        assertEquals(302, mvcPostResult.getResponse().getStatus());
+        Offer foundOffer = new ObjectMapper().readValue(mvcPostResult.getResponse().getContentAsString(), Offer.class);
+        Assertions.assertEquals(TestOffers.offer4.getPrice(), foundOffer.getPrice());
+        Assertions.assertEquals(TestOffers.offer4.getStartDate(), foundOffer.getStartDate());
+        Assertions.assertEquals(TestOffers.offer4.getEndDate(), foundOffer.getEndDate());
+    }
+
+    private void persistOffers() throws Exception {
+        persist_offer1();
+        persist_offer2();
+        persist_offer3();
+        persist_offer4();
     }
 
     private String mapToJson(Object object) throws JsonProcessingException {
